@@ -1,7 +1,7 @@
 package org.example.miniprojetback.Controllers;
 
-import org.example.miniprojetback.Dtos.request.ClientRequest;
-import org.example.miniprojetback.Dtos.response.ClientResponse;
+import org.example.miniprojetback.DAOs.request.ClientRequest;
+import org.example.miniprojetback.DAOs.response.ClientResponse;
 import org.example.miniprojetback.Services.IClientService;
 import org.example.miniprojetback.Exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;

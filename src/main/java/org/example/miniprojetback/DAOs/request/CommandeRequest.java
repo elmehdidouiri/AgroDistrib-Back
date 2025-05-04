@@ -1,4 +1,4 @@
-package org.example.miniprojetback.Dtos.response;
+package org.example.miniprojetback.DAOs.request;
 
 
 
@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.miniprojetback.Dtos.request.ProduitCommandeRequest;
 
 import java.util.List;
 
@@ -15,10 +14,9 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CommandeResponse {
-    private Long id;
+public class CommandeRequest {
     private Long clientId;
     private List<ProduitCommandeRequest> produitsCommande;
     private String status;
-    private Double totalAmount;
+    private double TotalPrice;
 }

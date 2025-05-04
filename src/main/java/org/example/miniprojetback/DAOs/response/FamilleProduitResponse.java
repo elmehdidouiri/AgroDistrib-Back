@@ -1,5 +1,4 @@
-package org.example.miniprojetback.Dtos.response;
-
+package org.example.miniprojetback.DAOs.response;
 
 
 
@@ -12,8 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class VendeurResponse {
+public class FamilleProduitResponse {
     private Long id;
-    private String name;
-    private String email;
+    private String familleName;
 }

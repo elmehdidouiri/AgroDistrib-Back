@@ -1,4 +1,5 @@
-package org.example.miniprojetback.Dtos.request;
+package org.example.miniprojetback.DAOs.request;
+
 
 
 
@@ -11,8 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class SuperviseurRequest {
-    private String name;
-    private String email;
-    private String password;
+public class ProduitCommandeRequest {
+    private Long produitId;
+    private Integer quantity;
 }

@@ -2,7 +2,7 @@ package org.example.miniprojetback.Services;
 
 
 
-import org.example.miniprojetback.Dtos.request.ProduitCommandeRequest;
+import org.example.miniprojetback.DAOs.request.ProduitCommandeRequest;
 import org.example.miniprojetback.Models.ProduitCommande;
 
 import java.util.List;

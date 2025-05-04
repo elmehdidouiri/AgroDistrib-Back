@@ -1,7 +1,7 @@
 package org.example.miniprojetback.Controllers;
 
-import org.example.miniprojetback.Dtos.request.AuthRequest;
-import org.example.miniprojetback.Dtos.response.AuthResponse;
+import org.example.miniprojetback.DAOs.request.AuthRequest;
+import org.example.miniprojetback.DAOs.response.AuthResponse;
 import org.example.miniprojetback.Services.IAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

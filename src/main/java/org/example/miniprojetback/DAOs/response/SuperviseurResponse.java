@@ -1,4 +1,5 @@
-package org.example.miniprojetback.Dtos.request;
+package org.example.miniprojetback.DAOs.response;
+
 
 
 
@@ -11,8 +12,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class VendeurRequest {
+public class SuperviseurResponse {
+    private Long id;
     private String name;
     private String email;
-    private String password;
 }
+

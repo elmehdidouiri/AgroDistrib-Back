@@ -1,4 +1,4 @@
-package org.example.miniprojetback.Dtos.response;
+package org.example.miniprojetback.DAOs.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

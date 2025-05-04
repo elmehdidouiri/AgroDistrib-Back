@@ -1,7 +1,7 @@
 package org.example.miniprojetback.Services;
 
-import org.example.miniprojetback.Dtos.request.ClientRequest;
-import org.example.miniprojetback.Dtos.response.ClientResponse;
+import org.example.miniprojetback.DAOs.request.ClientRequest;
+import org.example.miniprojetback.DAOs.response.ClientResponse;
 
 import java.util.List;
 

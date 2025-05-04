@@ -1,7 +1,7 @@
 package org.example.miniprojetback.Services.impl;
 
-import org.example.miniprojetback.Dtos.request.ClientRequest;
-import org.example.miniprojetback.Dtos.response.ClientResponse;
+import org.example.miniprojetback.DAOs.request.ClientRequest;
+import org.example.miniprojetback.DAOs.response.ClientResponse;
 import org.example.miniprojetback.Exceptions.ResourceNotFoundException;
 import org.example.miniprojetback.Models.Client;
 import org.example.miniprojetback.Repositories.ClientRepository;

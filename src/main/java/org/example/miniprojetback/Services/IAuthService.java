@@ -1,7 +1,7 @@
 package org.example.miniprojetback.Services;
 
-import org.example.miniprojetback.Dtos.request.AuthRequest;
-import org.example.miniprojetback.Dtos.response.AuthResponse;
+import org.example.miniprojetback.DAOs.request.AuthRequest;
+import org.example.miniprojetback.DAOs.response.AuthResponse;
 
 
 public interface IAuthService {

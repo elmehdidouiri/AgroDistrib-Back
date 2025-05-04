@@ -1,4 +1,4 @@
-package org.example.miniprojetback.Dtos.request;
+package org.example.miniprojetback.DAOs.request;
 
 
 import lombok.*;
