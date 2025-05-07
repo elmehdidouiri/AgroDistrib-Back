@@ -9,6 +9,8 @@ import lombok.Setter;
 
 import java.util.List;
 
+import static org.example.miniprojetback.Models.enums.Role.CLIENT;
+
 @Data
 @NoArgsConstructor
 @Entity
@@ -25,5 +27,6 @@ public class Client extends User {
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Commande> commandes;
+
 
 }

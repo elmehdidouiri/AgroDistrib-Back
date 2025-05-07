@@ -1,5 +1,6 @@
 package org.example.miniprojetback.Services.impl;
 
+import jakarta.transaction.Transactional;
 import org.example.miniprojetback.Models.Superviseur;
 import org.example.miniprojetback.Repositories.SuperviseurRepository;
 import org.example.miniprojetback.Services.ISuperviseurService;
@@ -19,7 +20,7 @@ public class SuperviseurServiceImpl implements ISuperviseurService {
     public Superviseur createSuperviseur(Superviseur superviseur) {
         return superviseurRepository.save(superviseur);
     }
-
+    @Transactional
     @Override
     public Superviseur updateSuperviseur(Long id, Superviseur superviseur) {
         Optional<Superviseur> existingSuperviseur = superviseurRepository.findById(id);
@@ -32,17 +33,17 @@ public class SuperviseurServiceImpl implements ISuperviseurService {
         }
         return null;  // Vous pouvez lancer une exception personnalisée si le superviseur n'existe pas
     }
-
+    @Transactional
     @Override
     public Optional<Superviseur> getSuperviseurById(Long id) {
         return superviseurRepository.findById(id);
     }
-
+    @Transactional
     @Override
     public List<Superviseur> getAllSuperviseurs() {
         return superviseurRepository.findAll();
     }
-
+    @Transactional
     @Override
     public void deleteSuperviseur(Long id) {
         superviseurRepository.deleteById(id);

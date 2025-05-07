@@ -3,17 +3,14 @@ package org.example.miniprojetback.Models;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import org.example.miniprojetback.Models.enums.CommandeStatus;
 
-
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @Entity
-@Getter
-@Setter
 @Table(name = "commandes")
 public class Commande {
 
@@ -22,25 +19,23 @@ public class Commande {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "client_id", nullable = true)
+    @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
-    @Column(name = "date_commande", nullable = true)
-    private Date dateCommande;
+    @Column(name = "date_commande", nullable = false)
+    private LocalDateTime dateCommande;
 
-    @Column(name = "total", nullable = true)
-    private Double total;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private CommandeStatus status;
 
-    @Column(name = "status", nullable = true)
-    private String status;
-    @Column(name = "price", nullable = true)
-    private double TotalPrice;
+    @Column(name = "paiement_valide", nullable = false)
+    private boolean paiementValide = false;
+
+    @OneToMany(mappedBy = "commande", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LigneCommande> lignesCommande;
+
     @ManyToOne
-    @JoinColumn(name = "superviseur_id") // ou un autre nom si tu veux
+    @JoinColumn(name = "superviseur_id")
     private Superviseur superviseur;
-    @ManyToOne
-    @JoinColumn(name = "vendeur_id") // Clé étrangère vers Vendeur
-    private Vendeur vendeur;
-
-
 }

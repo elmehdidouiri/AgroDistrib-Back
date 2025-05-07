@@ -1,13 +1,14 @@
 package org.example.miniprojetback.Controllers;
 
-import org.example.miniprojetback.Models.Commande;
+import org.example.miniprojetback.DAOs.request.CommandeRequest;
+import org.example.miniprojetback.DAOs.response.CommandeResponse;
 import org.example.miniprojetback.Services.ICommandeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/commandes")
@@ -17,35 +18,40 @@ public class CommandeController {
     private ICommandeService commandeService;
 
     @PostMapping
-    public ResponseEntity<Commande> createCommande(@RequestBody Commande commande) {
-        Commande createdCommande = commandeService.createCommande(commande);
-        return ResponseEntity.ok(createdCommande);
+    public ResponseEntity<CommandeResponse> createCommande(@RequestBody CommandeRequest request) {
+        CommandeResponse response = commandeService.createCommande(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Commande> updateCommande(@PathVariable Long id, @RequestBody Commande commande) {
-        Commande updatedCommande = commandeService.updateCommande(id, commande);
-        if (updatedCommande != null) {
-            return ResponseEntity.ok(updatedCommande);
-        }
-        return ResponseEntity.notFound().build();
+    @PutMapping("/{commandeId}/valider-paiement")
+    public ResponseEntity<CommandeResponse> validerPaiement(@PathVariable Long commandeId) {
+        CommandeResponse response = commandeService.validerPaiement(commandeId);
+        return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Commande> getCommandeById(@PathVariable Long id) {
-        Optional<Commande> commande = commandeService.getCommandeById(id);
-        return commande.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    @PutMapping("/{commandeId}/modifier-statut")
+    public ResponseEntity<CommandeResponse> modifierStatutCommande(
+            @PathVariable Long commandeId,
+            @RequestParam String nouveauStatut) {
+        CommandeResponse response = commandeService.modifierStatutCommande(commandeId, nouveauStatut);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/superviseur/{superviseurId}")
+    public ResponseEntity<List<CommandeResponse>> getCommandesParSuperviseur(@PathVariable Long superviseurId) {
+        List<CommandeResponse> responses = commandeService.getCommandesParSuperviseur(superviseurId);
+        return ResponseEntity.ok(responses);
+    }
+
+    @GetMapping("/client/{clientId}")
+    public ResponseEntity<List<CommandeResponse>> getCommandesParClient(@PathVariable Long clientId) {
+        List<CommandeResponse> responses = commandeService.getCommandesParClient(clientId);
+        return ResponseEntity.ok(responses);
     }
 
     @GetMapping
-    public ResponseEntity<List<Commande>> getAllCommandes() {
-        List<Commande> commandes = commandeService.getAllCommandes();
-        return ResponseEntity.ok(commandes);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCommande(@PathVariable Long id) {
-        commandeService.deleteCommande(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<List<CommandeResponse>> getToutesLesCommandes() {
+        List<CommandeResponse> responses = commandeService.getToutesLesCommandes();
+        return ResponseEntity.ok(responses);
     }
 }

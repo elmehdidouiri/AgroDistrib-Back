@@ -2,18 +2,13 @@ package org.example.miniprojetback.Models;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 
 @Data
 @NoArgsConstructor
-@Getter
-@Setter
 @Entity
-@Table(name = "produits_commandes")
-public class ProduitCommande {
+@Table(name = "lignes_commande")
+public class LigneCommande {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +24,4 @@ public class ProduitCommande {
 
     @Column(name = "quantite", nullable = false)
     private int quantite;
-
-    @Column(name = "prix_unitaire", nullable = false)
-    private double prixUnitaire;
 }

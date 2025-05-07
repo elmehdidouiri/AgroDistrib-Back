@@ -31,4 +31,7 @@ public class Produit {
     @Column(name = "famille_produit", nullable = false)
     private FamilleProduit familleProduit;
 
+    @Column(name = "quantite", nullable = false)
+    private int quantite;
+
 }

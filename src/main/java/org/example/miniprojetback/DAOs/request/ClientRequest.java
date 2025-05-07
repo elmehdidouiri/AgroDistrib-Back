@@ -10,12 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ClientRequest {
-    private String name;
-    private String telephone;
-    private String adresse;
-    private String email;
-    private String password;
+public class ClientRequest extends  AuthRequest {
     private int points;
     private boolean isActive;
 

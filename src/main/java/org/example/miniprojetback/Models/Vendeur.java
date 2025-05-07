@@ -1,14 +1,10 @@
 package org.example.miniprojetback.Models;
 
-
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -17,8 +13,5 @@ import java.util.List;
 @Setter
 @Table(name = "vendeurs")
 public class Vendeur extends User {
-
-    @OneToMany(mappedBy = "vendeur", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Commande> commandesLivres;
-
+    // Pas de relation directe avec Commande, car les actions seront gérées via les services et contrôleurs
 }

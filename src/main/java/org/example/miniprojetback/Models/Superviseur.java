@@ -1,7 +1,5 @@
 package org.example.miniprojetback.Models;
 
-
-
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -19,7 +17,5 @@ import java.util.List;
 public class Superviseur extends User {
 
     @OneToMany(mappedBy = "superviseur", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Commande> commandes;
-
-
+    private List<Commande> commandes; // Liste des commandes supervisées
 }

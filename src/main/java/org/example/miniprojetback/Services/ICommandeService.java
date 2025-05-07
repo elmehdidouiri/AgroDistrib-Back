@@ -1,19 +1,20 @@
 package org.example.miniprojetback.Services;
 
-import org.example.miniprojetback.Models.Commande;
+import org.example.miniprojetback.DAOs.request.CommandeRequest;
+import org.example.miniprojetback.DAOs.response.CommandeResponse;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ICommandeService {
+    CommandeResponse createCommande(CommandeRequest request);
 
-    Commande createCommande(Commande commande);
+    CommandeResponse validerPaiement(Long commandeId);
 
-    Commande updateCommande(Long id, Commande commande);
+    CommandeResponse modifierStatutCommande(Long commandeId, String nouveauStatut);
 
-    Optional<Commande> getCommandeById(Long id);
+    List<CommandeResponse> getCommandesParSuperviseur(Long superviseurId);
 
-    List<Commande> getAllCommandes();
+    List<CommandeResponse> getCommandesParClient(Long clientId);
 
-    void deleteCommande(Long id);
+    List<CommandeResponse> getToutesLesCommandes();
 }

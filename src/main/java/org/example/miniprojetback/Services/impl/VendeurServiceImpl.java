@@ -1,5 +1,6 @@
 package org.example.miniprojetback.Services.impl;
 
+import jakarta.transaction.Transactional;
 import org.example.miniprojetback.Models.Vendeur;
 import org.example.miniprojetback.Repositories.VendeurRepository;
 import org.example.miniprojetback.Services.IVendeurService;
@@ -19,12 +20,13 @@ public class VendeurServiceImpl implements IVendeurService {
         this.vendeurRepository = vendeurRepository;
     }
 
+    @Transactional
     @Override
     public Vendeur createVendeur(Vendeur vendeur) {
         // Sauvegarde le vendeur dans la base de données
         return vendeurRepository.save(vendeur);
     }
-
+    @Transactional
     @Override
     public Vendeur updateVendeur(Long id, Vendeur vendeur) {
         // Recherche du vendeur par ID
@@ -42,19 +44,19 @@ public class VendeurServiceImpl implements IVendeurService {
             throw new RuntimeException("Vendeur not found with id: " + id);
         }
     }
-
+    @Transactional
     @Override
     public Optional<Vendeur> getVendeurById(Long id) {
         // Récupère le vendeur par son ID
         return vendeurRepository.findById(id);
     }
-
+    @Transactional
     @Override
     public List<Vendeur> getAllVendeurs() {
         // Récupère tous les vendeurs
         return vendeurRepository.findAll();
     }
-
+    @Transactional
     @Override
     public void deleteVendeur(Long id) {
         // Supprime le vendeur par son ID

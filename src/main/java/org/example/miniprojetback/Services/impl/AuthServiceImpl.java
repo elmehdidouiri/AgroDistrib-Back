@@ -1,5 +1,6 @@
 package org.example.miniprojetback.Services.impl;
 
+import jakarta.transaction.Transactional;
 import org.example.miniprojetback.DAOs.request.AuthRequest;
 import org.example.miniprojetback.DAOs.response.AuthResponse;
 import org.example.miniprojetback.Exceptions.InvalidCredentialsException;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.beans.Transient;
 import java.time.LocalDateTime;
 
 @Service
@@ -24,7 +26,7 @@ public class AuthServiceImpl implements IAuthService {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;  // Injection de BCryptPasswordEncoder
-
+@Transactional
     @Override
     public AuthResponse login(AuthRequest authRequest) {
         try {
@@ -47,16 +49,13 @@ public class AuthServiceImpl implements IAuthService {
             throw new InvalidCredentialsException("An error occurred while logging in");
         }
     }
-
+    @Transactional
     @Override
     public void register(AuthRequest authRequest) {
         try {
-            // Vérification si l'email est déjà utilisé
             userRepository.findByEmail(authRequest.getEmail()).ifPresent(user -> {
                 throw new InvalidCredentialsException("Email already in use");
             });
-
-            // Création d'un utilisateur de base
             User user;
             Role role = Role.valueOf(String.valueOf(authRequest.getRole())); // conversion String -> Enum
             switch (role) {
@@ -71,8 +70,6 @@ public class AuthServiceImpl implements IAuthService {
                 }
                 default -> throw new IllegalArgumentException("Unknown role: " + role);
             }
-
-            // Assignation des attributs communs
             user.setEmail(authRequest.getEmail());
             user.setPassword(passwordEncoder.encode(authRequest.getPassword()));
             user.setRole(role);
