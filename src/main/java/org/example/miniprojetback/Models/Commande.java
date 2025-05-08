@@ -38,4 +38,8 @@ public class Commande {
     @ManyToOne
     @JoinColumn(name = "superviseur_id")
     private Superviseur superviseur;
+
+    @ManyToOne
+    @JoinColumn(name = "vendeur_id")
+    private Vendeur vendeur;
 }

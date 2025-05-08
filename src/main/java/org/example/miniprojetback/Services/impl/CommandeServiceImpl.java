@@ -5,13 +5,9 @@ import org.example.miniprojetback.DAOs.request.CommandeRequest;
 import org.example.miniprojetback.DAOs.request.ProduitCommandeRequest;
 import org.example.miniprojetback.DAOs.response.CommandeResponse;
 import org.example.miniprojetback.Exceptions.ResourceNotFoundException;
-import org.example.miniprojetback.Models.Commande;
-import org.example.miniprojetback.Models.LigneCommande;
-import org.example.miniprojetback.Models.Produit;
+import org.example.miniprojetback.Models.*;
 import org.example.miniprojetback.Models.enums.CommandeStatus;
-import org.example.miniprojetback.Repositories.CommandeRepository;
-import org.example.miniprojetback.Repositories.LigneCommandeRepository;
-import org.example.miniprojetback.Repositories.ProduitRepository;
+import org.example.miniprojetback.Repositories.*;
 import org.example.miniprojetback.Services.ICommandeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,19 +28,50 @@ public class CommandeServiceImpl implements ICommandeService {
     @Autowired
     private ProduitRepository produitRepository;
 
+    @Autowired
+    private VendeurRepository vendeurRepository;
+
+    @Autowired
+    private SuperviseurRepository superviseurRepository;
+
+    @Autowired
+    private ClientRepository clientRepository;
+
     @Transactional
     @Override
     public CommandeResponse createCommande(CommandeRequest request) {
         Commande commande = new Commande();
-        commande.setClient(request.getClient());
+
+        // Récupérer le client à partir de l'ID
+        Client client = clientRepository.findById(request.getClient())
+                .orElseThrow(() -> new ResourceNotFoundException("Client non trouvé avec l'ID : " + request.getClient()));
+        commande.setClient(client);
+        client.setPoints(client.getPoints() + 1);
+
         commande.setDateCommande(LocalDateTime.now());
-        commande.setStatus(CommandeStatus.EN_COURS); // Utilisation de l'énumération
+        commande.setStatus(CommandeStatus.EN_COURS);
+
+        // Récupérer le vendeur
+        Vendeur vendeur = vendeurRepository.findById(request.getVendeurId())
+                .orElseThrow(() -> new ResourceNotFoundException("Vendeur non trouvé avec l'ID : " + request.getVendeurId()));
+        commande.setVendeur(vendeur);
+
+        // Récupérer le superviseur
+        Superviseur superviseur = superviseurRepository.findById(request.getSuperviseurId())
+                .orElseThrow(() -> new ResourceNotFoundException("Superviseur non trouvé avec l'ID : " + request.getSuperviseurId()));
+        commande.setSuperviseur(superviseur);
+
         Commande savedCommande = commandeRepository.save(commande);
 
         List<LigneCommande> lignesCommande = request.getProduits().stream().map(produitCommandeRequest -> {
             Produit produit = produitRepository.findById(produitCommandeRequest.getProduitId())
                     .orElseThrow(() -> new ResourceNotFoundException("Produit non trouvé avec l'ID : " + produitCommandeRequest.getProduitId()));
-
+            int nouvelleQuantite = produit.getQuantite() - produitCommandeRequest.getQuantity();
+            if (nouvelleQuantite < 0) {
+                throw new IllegalStateException("Stock insuffisant pour le produit : " + produit.getNom());
+            }
+            produit.setQuantite(nouvelleQuantite);
+            produitRepository.save(produit);
             LigneCommande ligneCommande = new LigneCommande();
             ligneCommande.setCommande(savedCommande);
             ligneCommande.setProduit(produit);
@@ -55,7 +82,6 @@ public class CommandeServiceImpl implements ICommandeService {
         savedCommande.setLignesCommande(lignesCommande);
         return mapToCommandeResponse(savedCommande);
     }
-
     private CommandeResponse mapToCommandeResponse(Commande commande) {
         CommandeResponse response = new CommandeResponse();
         response.setId(commande.getId());
@@ -95,21 +121,28 @@ public class CommandeServiceImpl implements ICommandeService {
         commandeRepository.save(commande);
         return mapToCommandeResponse(commande);
     }
-
+    @Transactional
     @Override
     public List<CommandeResponse> getCommandesParSuperviseur(Long superviseurId) {
         List<Commande> commandes = commandeRepository.findBySuperviseurId(superviseurId);
         return commandes.stream().map(this::mapToCommandeResponse).collect(Collectors.toList());
     }
-
+    @Transactional
     @Override
     public List<CommandeResponse> getCommandesParClient(Long clientId) {
         List<Commande> commandes = commandeRepository.findByClientId(clientId);
         return commandes.stream().map(this::mapToCommandeResponse).collect(Collectors.toList());
     }
+    @Transactional
     @Override
     public List<CommandeResponse> getToutesLesCommandes() {
         List<Commande> commandes = commandeRepository.findAll();
+        return commandes.stream().map(this::mapToCommandeResponse).collect(Collectors.toList());
+    }
+    @Transactional
+    @Override
+    public List<CommandeResponse> getBilanCommandesParSuperviseur(Long superviseurId) {
+        List<Commande> commandes = commandeRepository.findBySuperviseurId(superviseurId);
         return commandes.stream().map(this::mapToCommandeResponse).collect(Collectors.toList());
     }
 

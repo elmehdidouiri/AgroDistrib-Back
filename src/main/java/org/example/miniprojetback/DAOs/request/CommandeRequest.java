@@ -13,6 +13,8 @@ import java.util.List;
 @Getter
 @Setter
 public class CommandeRequest {
-    private Client client;
+    private Long client;
     private List<ProduitCommandeRequest> produits;
+    private Long vendeurId;
+    private Long superviseurId;
 }

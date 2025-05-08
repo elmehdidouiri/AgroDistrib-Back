@@ -9,7 +9,7 @@ import lombok.Setter;
 
 import java.util.List;
 
-import static org.example.miniprojetback.Models.enums.Role.CLIENT;
+
 
 @Data
 @NoArgsConstructor

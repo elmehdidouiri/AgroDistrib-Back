@@ -60,7 +60,8 @@ public class AuthServiceImpl implements IAuthService {
             Role role = Role.valueOf(String.valueOf(authRequest.getRole())); // conversion String -> Enum
             switch (role) {
                 case CLIENT -> {
-                    user = new Client(); // Spécifique au rôle CLIENT
+                    user = new Client();
+                    // Spécifique au rôle CLIENT
                 }
                 case SUPERVISEUR -> {
                     user = new Superviseur(); // Spécifique au rôle SUPERVISEUR

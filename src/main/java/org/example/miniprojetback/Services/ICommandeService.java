@@ -17,4 +17,6 @@ public interface ICommandeService {
     List<CommandeResponse> getCommandesParClient(Long clientId);
 
     List<CommandeResponse> getToutesLesCommandes();
+
+    List<CommandeResponse> getBilanCommandesParSuperviseur(Long superviseurId);
 }
