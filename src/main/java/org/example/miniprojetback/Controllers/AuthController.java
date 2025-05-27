@@ -23,7 +23,7 @@ public class AuthController {
             return ResponseEntity.ok(authResponse);  // Retourne une réponse 200 avec les informations de l'utilisateur
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new AuthResponse("Invalid credentials",null));  // Si erreur, retourne une réponse 401 avec un message d'erreur
+                    .body(new AuthResponse("Invalid credentials",null,null,null));  // Si erreur, retourne une réponse 401 avec un message d'erreur
         }
     }
 

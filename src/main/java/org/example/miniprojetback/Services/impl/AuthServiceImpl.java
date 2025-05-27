@@ -40,7 +40,8 @@ public class AuthServiceImpl implements IAuthService {
             AuthResponse response = new AuthResponse();
             response.setEmail(user.getEmail());  // Set email de l'utilisateur
             response.setRole(Role.valueOf(user.getRole().name()));  // Set le rôle de l'utilisateur (converti en string)
-
+            response.setAdresse(user.getAdresse());  // Set email de l'utilisateur
+            response.setId(user.getId());
             return response;
 
         } catch (Exception e) {

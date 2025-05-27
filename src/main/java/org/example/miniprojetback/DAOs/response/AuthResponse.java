@@ -15,6 +15,10 @@ public class AuthResponse {
 
     private String email;
     private Role role;
+    private String adresse;
+    private Long id; // ID de l'utilisateur
+    // Nouveau champ pour l'adresse
+
 }
 
 
