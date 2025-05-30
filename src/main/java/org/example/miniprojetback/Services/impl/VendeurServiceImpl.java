@@ -1,7 +1,12 @@
 package org.example.miniprojetback.Services.impl;
 
 import jakarta.transaction.Transactional;
+import org.example.miniprojetback.DAOs.request.ProduitCommandeRequest;
+import org.example.miniprojetback.DAOs.response.CommandeResponse;
+import org.example.miniprojetback.Exceptions.ResourceNotFoundException;
+import org.example.miniprojetback.Models.Commande;
 import org.example.miniprojetback.Models.Vendeur;
+import org.example.miniprojetback.Repositories.CommandeRepository;
 import org.example.miniprojetback.Repositories.VendeurRepository;
 import org.example.miniprojetback.Services.IVendeurService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,15 +14,18 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class VendeurServiceImpl implements IVendeurService {
 
     private final VendeurRepository vendeurRepository;
+    private final CommandeRepository commandeRepository;
 
     @Autowired
-    public VendeurServiceImpl(VendeurRepository vendeurRepository) {
+    public VendeurServiceImpl(VendeurRepository vendeurRepository,CommandeRepository commandeRepository) {
         this.vendeurRepository = vendeurRepository;
+        this.commandeRepository = commandeRepository;
     }
 
     @Transactional
@@ -61,5 +69,36 @@ public class VendeurServiceImpl implements IVendeurService {
     public void deleteVendeur(Long id) {
         // Supprime le vendeur par son ID
         vendeurRepository.deleteById(id);
+    }
+    @Override
+    public List<CommandeResponse> getCommandesParVendeur(Long vendeurId) {
+        Vendeur vendeur = vendeurRepository.findById(vendeurId)
+                .orElseThrow(() -> new ResourceNotFoundException("Vendeur non trouvé avec l'ID : " + vendeurId));
+
+        List<Commande> commandes = commandeRepository.findByVendeur(vendeur);
+
+        return commandes.stream()
+                .map(this::mapToCommandeResponse)
+                .collect(Collectors.toList());
+    }
+    private CommandeResponse mapToCommandeResponse(Commande commande) {
+        CommandeResponse response = new CommandeResponse();
+        response.setId(commande.getId());
+        response.setDateCommande(commande.getDateCommande());
+        response.setStatus(String.valueOf(commande.getStatus()));
+        response.setProduits(
+                commande.getLignesCommande().stream()
+                        .map(ligneCommande -> {
+                            ProduitCommandeRequest produitRequest = new ProduitCommandeRequest();
+                            produitRequest.setProduitId(ligneCommande.getProduit().getId());
+                            produitRequest.setNomProduit(ligneCommande.getProduit().getNom());
+                            produitRequest.setQuantity(ligneCommande.getQuantite());
+                            return produitRequest;
+                        })
+                        .collect(Collectors.toList())
+        );
+        response.setClientNom(commande.getClient().getName());
+        response.setClientAdresse(commande.getClient().getAdresse()); // Récupération de l'adresse du client
+        return response;
     }
 }

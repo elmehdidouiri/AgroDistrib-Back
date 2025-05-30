@@ -14,5 +14,7 @@ import lombok.Setter;
 @Setter
 public class ProduitCommandeRequest {
     private Long produitId;
+    private String nomProduit;
     private Integer quantity;
+    private Double prixUnitaire; // Nouveau champ pour le prix unitaire
 }

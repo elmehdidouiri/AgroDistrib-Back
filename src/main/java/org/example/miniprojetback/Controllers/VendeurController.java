@@ -1,8 +1,10 @@
 package org.example.miniprojetback.Controllers;
 
+import org.example.miniprojetback.DAOs.response.CommandeResponse;
 import org.example.miniprojetback.Models.Vendeur;
 import org.example.miniprojetback.Services.IVendeurService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,5 +44,10 @@ public class VendeurController {
     @DeleteMapping("/{id}")
     public void deleteVendeur(@PathVariable Long id) {
         vendeurService.deleteVendeur(id);
+    }
+    @GetMapping("/{vendeurId}/commandes")
+    public ResponseEntity<List<CommandeResponse>> getCommandesParVendeur(@PathVariable Long vendeurId) {
+        List<CommandeResponse> commandes = vendeurService.getCommandesParVendeur(vendeurId);
+        return ResponseEntity.ok(commandes);
     }
 }

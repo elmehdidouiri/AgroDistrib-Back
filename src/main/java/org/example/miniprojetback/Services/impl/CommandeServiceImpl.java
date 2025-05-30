@@ -86,13 +86,21 @@ public class CommandeServiceImpl implements ICommandeService {
         CommandeResponse response = new CommandeResponse();
         response.setId(commande.getId());
         response.setDateCommande(commande.getDateCommande());
-        response.setStatus(commande.getStatus().name()); // Conversion de l'énumération en chaîne
-        response.setProduits(commande.getLignesCommande().stream().map(ligne -> {
-            ProduitCommandeRequest produitCommande = new ProduitCommandeRequest();
-            produitCommande.setProduitId(ligne.getProduit().getId());
-            produitCommande.setQuantity(ligne.getQuantite());
-            return produitCommande;
-        }).collect(Collectors.toList()));
+        response.setStatus(String.valueOf(commande.getStatus()));
+        response.setProduits(
+                commande.getLignesCommande().stream()
+                        .map(ligneCommande -> {
+                            ProduitCommandeRequest produitRequest = new ProduitCommandeRequest();
+                            produitRequest.setProduitId(ligneCommande.getProduit().getId());
+                            produitRequest.setNomProduit(ligneCommande.getProduit().getNom());
+                            produitRequest.setQuantity(ligneCommande.getQuantite());
+                            produitRequest.setPrixUnitaire(ligneCommande.getProduit().getPrix()); // Ajout du prix unitaire
+                            return produitRequest;
+                        })
+                        .collect(Collectors.toList())
+        );
+        response.setClientNom(commande.getClient().getName());
+        response.setClientAdresse(commande.getClient().getAdresse());
         return response;
     }
     @Transactional

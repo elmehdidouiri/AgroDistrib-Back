@@ -42,4 +42,5 @@ public class Commande {
     @ManyToOne
     @JoinColumn(name = "vendeur_id")
     private Vendeur vendeur;
+
 }

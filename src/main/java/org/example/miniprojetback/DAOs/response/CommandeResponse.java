@@ -18,4 +18,6 @@ public class CommandeResponse {
     private LocalDateTime dateCommande;
     private String status;
     private List<ProduitCommandeRequest> produits;
+    private String clientNom;
+    private String clientAdresse;
 }
