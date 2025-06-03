@@ -16,6 +16,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.example.miniprojetback.Models.enums.CommandeStatus.TERMINE;
+
 @Service
 public class CommandeServiceImpl implements ICommandeService {
 
@@ -109,6 +111,7 @@ public class CommandeServiceImpl implements ICommandeService {
         Commande commande = commandeRepository.findById(commandeId)
                 .orElseThrow(() -> new ResourceNotFoundException("Commande non trouvée avec l'ID : " + commandeId));
         commande.setPaiementValide(true);
+        commande.setStatus(TERMINE);
         Commande savedCommande = commandeRepository.save(commande);
         return mapToCommandeResponse(savedCommande);
     }

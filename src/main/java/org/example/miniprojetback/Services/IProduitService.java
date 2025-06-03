@@ -10,6 +10,6 @@ public interface IProduitService {
     ProduitResponse createProduit(ProduitRequest request);
     List<ProduitResponse> getAllProduits();
     ProduitResponse getProduitById(Long id);
-    ProduitResponse updateProduit(Long id, ProduitRequest request);
+    ProduitResponse updateProduitPartiel(Long id, ProduitRequest request);
     void deleteProduit(Long id);
 }

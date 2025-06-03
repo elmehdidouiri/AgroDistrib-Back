@@ -33,15 +33,27 @@ public class ProduitServiceImpl implements IProduitService {
 
     @Transactional
     @Override
-    public ProduitResponse updateProduit(Long id, ProduitRequest request) {
-        Produit produit = produitRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Produit non trouvé avec l'ID : " + id));
-        produit.setNom(request.getNom());
-        produit.setPrix(request.getPrix());
-        produit.setFamilleProduit(request.getFamilleProduit());
-        produit.setQuantite(request.getQuantite());
-        produit = produitRepository.save(produit);
-        return mapToProduitResponse(produit);
+    public ProduitResponse updateProduitPartiel(Long id, ProduitRequest request) {
+        Produit produit = produitRepository.findById(id).orElse(null);
+        if (produit == null) {
+            return null;
+        }
+
+        if (request.getNom() != null) {
+            produit.setNom(request.getNom());
+        }
+        if (request.getPrix() != 0) {
+            produit.setPrix(request.getPrix());
+        }
+        if (request.getFamilleProduit() != null) {
+            produit.setFamilleProduit(request.getFamilleProduit());
+        }
+        if (request.getQuantite() != 0) {
+            produit.setQuantite(request.getQuantite());
+        }
+
+        produitRepository.save(produit);
+        return new ProduitResponse(produit);
     }
 
     @Transactional

@@ -52,10 +52,10 @@ public class ProduitController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ProduitResponse> updateProduit(@PathVariable Long id, @Valid @RequestBody ProduitRequest request) {
+    @PatchMapping("/{id}")
+    public ResponseEntity<ProduitResponse> updateProduitPartiel(@PathVariable Long id, @RequestBody ProduitRequest request) {
         try {
-            ProduitResponse produit = produitService.updateProduit(id, request);
+            ProduitResponse produit = produitService.updateProduitPartiel(id, request);
             if (produit != null) {
                 return ResponseEntity.ok(produit);
             } else {

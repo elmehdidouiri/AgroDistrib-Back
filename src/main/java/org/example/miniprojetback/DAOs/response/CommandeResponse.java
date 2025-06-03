@@ -19,5 +19,6 @@ public class CommandeResponse {
     private String status;
     private List<ProduitCommandeRequest> produits;
     private String clientNom;
+    private long clientId;
     private String clientAdresse;
 }

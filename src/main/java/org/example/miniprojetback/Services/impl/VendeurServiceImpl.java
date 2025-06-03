@@ -97,6 +97,7 @@ public class VendeurServiceImpl implements IVendeurService {
                         })
                         .collect(Collectors.toList())
         );
+        response.setClientId(commande.getClient().getId());
         response.setClientNom(commande.getClient().getName());
         response.setClientAdresse(commande.getClient().getAdresse()); // Récupération de l'adresse du client
         return response;
